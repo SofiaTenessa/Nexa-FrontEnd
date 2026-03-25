@@ -1,0 +1,338 @@
+.main {
+  flex: 1;
+  min-width: 0;
+  padding: 20px 28px 32px;
+}
+
+.wordmark {
+  margin-bottom: 12px;
+  text-align: left;
+  color: #111;
+}
+
+.page-header {
+  margin-bottom: 24px;
+}
+
+.page-header h1 {
+  margin: 0;
+  font-size: 26px;
+  font-weight: 700;
+}
+
+.page-header p {
+  margin: 8px 0 0;
+  font-size: 16px;
+  color: #666;
+}
+
+.top-grid {
+  display: grid;
+  grid-template-columns: minmax(420px, 1fr) minmax(520px, 1fr);
+  gap: 26px;
+  width: 100%;
+  align-items: start;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.status-card,
+.panel,
+.water-card {
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.status-card {
+  background: #f8e6e6;
+  border-left: 8px solid #e44b40;
+}
+
+.status-head {
+  min-height: 118px;
+  padding: 24px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  border-bottom: 1px solid #ea6b62;
+}
+
+.health-subtitle,
+.panel-subtitle {
+  margin: 0 0 0.5rem;
+  font-size: 14px;
+  line-height: 1.43;
+  letter-spacing: 0.15px;
+  font-weight: 400;
+}
+
+.health-title,
+.panel-header h2 {
+  margin: 0;
+  font-size: 20px;
+  line-height: 1.6;
+  letter-spacing: 0.15px;
+  font-weight: 700;
+}
+
+.warning-icon {
+  position: relative;
+  width: 32px;
+  height: 28px;
+  margin-top: 2px;
+}
+
+.warning-triangle {
+  width: 0;
+  height: 0;
+  border-left: 16px solid transparent;
+  border-right: 16px solid transparent;
+  border-bottom: 28px solid rgb(211, 47, 47);
+}
+
+.warning-mark {
+  position: absolute;
+  top: 7px;
+  left: 13px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.single-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px 14px 20px;
+  background: #fff;
+}
+
+.health-row {
+  padding: 0.5rem 1rem;
+  column-gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background: #fff;
+  border-top: 1px solid #dcdcdc;
+  min-height: 72px;
+}
+
+.asset-name {
+  display: flex;
+  align-items: center;
+  width: 10rem;
+  font-size: 1rem;
+  color: rgb(30, 30, 30);
+}
+
+.asset-icon {
+  width: 1em;
+  height: 1em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin-right: 0.25rem;
+}
+
+.asset-status,
+.asset-status-group {
+  display: flex;
+  align-items: center;
+}
+
+.asset-status {
+  font-size: 1rem;
+  color: rgb(30, 30, 30);
+  padding: 0.375rem;
+}
+
+.asset-status-group {
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.status-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.625rem;
+  flex: 0 0 auto;
+}
+
+.status-dot.red,
+.alert-dot {
+  background-color: rgb(211, 47, 47);
+}
+
+.status-dot.green {
+  background-color: rgb(76, 175, 80);
+}
+
+.alert-dot {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.panel-header {
+  min-height: 118px;
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-left: 8px solid #e5e5e5;
+  border-bottom: 1px solid #dddddd;
+}
+
+.outline-btn {
+  background: #fff;
+  border: 1px solid #69a7f1;
+  color: #1976d2;
+  border-radius: 6px;
+  padding: 12px 18px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.alert-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 22px 18px;
+  border-bottom: 1px solid #dddddd;
+}
+
+.alert-main {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex: 1;
+  min-width: 0;
+}
+
+.severity {
+  font-size: 1rem;
+  color: rgb(30, 30, 30);
+}
+
+.alert-main a {
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.time-block {
+  border-left: 1px solid #e2e2e2;
+  padding-left: 18px;
+  margin-left: 18px;
+  min-width: 120px;
+  font-size: 1rem;
+  color: rgb(30, 30, 30);
+}
+
+.time-label {
+  color: #757575;
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+.water-card {
+  margin-top: 24px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.water-block {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.water-title-block {
+  min-width: 180px;
+}
+
+.water-dots {
+  color: #888;
+}
+
+.trend-up {
+  color: rgb(211, 47, 47);
+}
+
+.water-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.water-chevron {
+  color: #777;
+  font-size: 22px;
+}
+
+.leak-panel {
+  margin-top: 24px;
+  padding: 22px;
+}
+
+.leak-panel h3 {
+  margin: 0 0 18px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.leak-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.mini-card {
+  border: 1px solid #dfdfdf;
+  border-radius: 4px;
+  min-height: 132px;
+  padding: 18px;
+  background: #fff;
+}
+
+.mini-label {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 26px;
+}
+
+.mini-big {
+  font-size: 24px;
+  font-weight: 700;
+  color: #333;
+}
+
+@media (max-width: 1100px) {
+  .top-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .water-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .leak-grid {
+    grid-template-columns: 1fr;
+  }
+}
