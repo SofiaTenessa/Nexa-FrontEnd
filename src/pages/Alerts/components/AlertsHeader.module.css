@@ -1,0 +1,40 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 18px 12px;
+}
+
+.titleWrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.titleWrap :global(.material-symbols-outlined) {
+  font-size: 32px;
+  color: #1f1f1f;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.title {
+  margin: 0;
+  font-size: 34px;
+  line-height: 1.1;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.refreshBtn {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #777;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refreshBtn :global(.material-symbols-outlined) {
+  font-size: 32px;
+}

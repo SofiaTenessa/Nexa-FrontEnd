@@ -1,57 +1,163 @@
 .sidebar {
-  width: 330px;
-  flex: 0 0 330px;
+  width: 82px;
+  flex: 0 0 82px;
+  height: 100vh;
   background: #f7f7f7;
   border-right: 1px solid #d9d9d9;
+  overflow: hidden;
+  transition: width 0.5s ease;
+  position: sticky;
+  top: 0;
 }
 
-.sidebar-topbar {
-  height: 80px;
+.sidebar:hover {
+  width: 255px;
+  flex-basis: 255px;
+}
+
+.sidebarTopbar {
+  height: 52px;
   background: #1f4f98;
-  color: white;
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 14px;
 }
 
-.sidebar-expanded {
+.sidebarExpanded {
   padding: 18px 0 0;
 }
 
-.sidebar-section {
-  padding: 0 12px;
+.sidebarSection {
+  padding: 0 8px;
 }
 
-.sidebar-link {
-  height: 60px;
+.sidebarLink {
+  height: 52px;
   display: flex;
   align-items: center;
-  gap: 24px;
-  padding: 0 18px;
+  gap: 18px;
+  padding: 0 16px;
   color: #202020;
-  font-size: 22px;
+  font-size: 18px;
   border-radius: 8px;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
+  white-space: nowrap;
+  overflow: hidden;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
 }
 
-.sidebar-link.active {
+.sidebarLink:hover {
+  background: #eef3fb;
+}
+
+.active {
   background: #dfe8f8;
   color: #2b66d9;
 }
 
-.nav-icon {
+.navIcon {
   width: 28px;
+  min-width: 28px;
   display: inline-flex;
   justify-content: center;
+  align-items: center;
   color: #7b7b7b;
+  font-size: 22px;
+  line-height: 1;
+  transition: color 0.2s ease;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
 }
 
-.sidebar-link.active .nav-icon {
+.sidebarLink.active .navIcon,
+.active .navIcon {
   color: #2b66d9;
 }
 
-.sidebar-divider {
+.sidebarDivider {
   border-top: 1px solid #d8d8d8;
-  margin: 18px 0;
+  margin: 18px 12px;
+}
+
+.navLabel {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+}
+
+.sidebar:hover .navLabel {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.topbarLeft,
+.topbarRight {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.topbarLeft :global(.material-symbols-outlined),
+.topbarRight :global(.material-symbols-outlined) {
+  font-size: 22px;
+  line-height: 1;
+  font-variation-settings:
+    "FILL" 1,
+    "wght" 400,
+    "GRAD" 0,
+    "opsz" 24;
+}
+
+.topbarLogo {
+  opacity: 0;
+  transform: translateX(-8px);
+  white-space: nowrap;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  pointer-events: none;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.sidebar:hover .topbarLogo {
+  opacity: 1;
+  transform: translateX(0);
+  pointer-events: auto;
+}
+
+.bellWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #d32f2f;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  line-height: 1;
+  position: absolute;
+  top: -8px;
+  right: -12px;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.sidebar:hover .badge {
+  opacity: 1;
 }

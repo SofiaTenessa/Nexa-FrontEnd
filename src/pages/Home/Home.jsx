@@ -1,7 +1,16 @@
 import styles from './Home.module.css';
 
 function StatusDot({ color }) {
-  return <span className={`${styles['status-dot']} ${styles[color]}`} />;
+  const dotStyle = {
+    width: '12px',
+    height: '12px',
+    borderRadius: '50%',
+    display: 'inline-block',
+    marginRight: '10px',
+    flexShrink: 0,
+    backgroundColor: color === 'red' ? 'rgb(211, 47, 47)' : 'rgb(76, 175, 80)'
+  };
+  return <span style={dotStyle} />;
 }
 
 function WarningIcon() {
@@ -82,10 +91,19 @@ function OpenAlertsCard() {
 }
 
 function AlertRow({ title, time }) {
+  const dotStyle = {
+    width: '12px',
+    height: '12px',
+    borderRadius: '50%',
+    display: 'inline-block',
+    flexShrink: 0,
+    backgroundColor: 'rgb(211, 47, 47)'
+  };
+
   return (
     <div className={styles['alert-row']}>
       <div className={styles['alert-main']}>
-        <span className={styles['alert-dot']} />
+        <span style={dotStyle} />
         <span className={styles.severity}>High</span>
         <a href="/">{title}</a>
       </div>

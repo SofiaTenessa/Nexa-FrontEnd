@@ -1,0 +1,123 @@
+.timelineWrap {
+  display: grid;
+  grid-template-columns: 38px 1fr;
+  gap: 12px;
+  padding: 0 24px 0 18px;
+}
+
+.rail {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 6px;
+}
+
+.railRow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 70px;
+}
+
+.line {
+  width: 2px;
+  flex: 1;
+  background: #cfcfcf;
+}
+
+.railIcon {
+  font-size: 22px;
+  margin: 4px 0;
+}
+
+.red {
+  color: #df3b33;
+  font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+}
+
+.gray {
+  color: #7a7a7a;
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.cards {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.eventCard {
+  display: grid;
+  grid-template-columns: 88px 1fr;
+  background: #fff;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  min-height: 58px;
+}
+
+.dateBlock {
+  padding: 14px 10px;
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.2;
+}
+
+.eventMain {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+}
+
+.eventTitleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.eventTitle {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+}
+
+.pills {
+  display: inline-flex;
+  gap: 0;
+  overflow: hidden;
+  border-radius: 999px;
+}
+
+.pill {
+  background: #dce9f8;
+  color: #2468b2;
+  font-size: 14px;
+  padding: 7px 14px;
+  border-right: 1px solid #bdd3ef;
+}
+
+.pills .pill:last-child {
+  border-right: none;
+}
+
+.errorBadge {
+  background: #f8ded9;
+  color: #df3b33;
+  font-size: 14px;
+  padding: 7px 12px;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.meta {
+  color: #777;
+  font-size: 14px;
+}
+
+.chevron {
+  margin-left: auto;
+  color: #1976d2;
+  font-size: 28px;
+}

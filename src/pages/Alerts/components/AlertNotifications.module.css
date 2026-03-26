@@ -1,0 +1,43 @@
+.box,
+.empty {
+  margin: 0 24px 28px;
+  background: #fff;
+  border: 1px solid #d8d8d8;
+  border-radius: 6px;
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  padding: 0 18px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.icon {
+  font-size: 22px;
+  color: #777;
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.label {
+  font-size: 18px;
+  color: #333;
+}
+
+.pill {
+  background: #dce9f8;
+  color: #2468b2;
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.empty {
+  justify-content: center;
+  color: #777;
+  font-size: 18px;
+}

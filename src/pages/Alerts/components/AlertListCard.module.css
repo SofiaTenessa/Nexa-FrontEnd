@@ -1,0 +1,95 @@
+.card {
+  width: 100%;
+  text-align: left;
+  border: 1px solid #d7d7d7;
+  border-radius: 12px;
+  background: #fff;
+  padding: 20px 22px 22px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.selected {
+  background: #edf4ff;
+  border-color: #2b7de9;
+}
+
+.topLine {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.label {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #666;
+}
+
+.time {
+  font-size: 14px;
+}
+
+.severityWrap {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.redDot {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #e53935;
+}
+
+.severity {
+  font-size: 18px;
+  color: #333;
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 26px;
+}
+
+.icon {
+  font-size: 30px;
+  color: #df3b33;
+  font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 24;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #222;
+  line-height: 1.35;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.automationRow {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  color: #444;
+}
+
+.automationLabel {
+  font-size: 14px;
+  letter-spacing: 2px;
+  color: #666;
+}
+
+.automationText {
+  font-size: 14px;
+}

@@ -1,0 +1,16 @@
+.listPane {
+  border-right: 1px solid #dadada;
+  background: #f6f6f7;
+}
+
+.scrollArea {
+  padding: 14px;
+  max-height: calc(100vh - 280px);
+  overflow-y: auto;
+}
+
+.empty {
+  padding: 24px;
+  color: #666;
+  font-size: 16px;
+}
