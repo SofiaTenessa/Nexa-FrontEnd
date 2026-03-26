@@ -4,7 +4,7 @@ import "./styles/index.css";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Home from "./pages/Home/Home";
 import SystemMap from "./pages/SystemMap/SystemMap";
-
+import Alerts from "./pages/Alerts/Alerts"; 
 import styles from "./components/Navbar/Navbar.module.css";
 
 export default function App() {
@@ -16,6 +16,7 @@ export default function App() {
 
       {page === "home" && <Home />}
       {page === "systemMap" && <SystemMap />}
+      {page === "alerts" && <Alerts />} 
     </div>
   );
 }

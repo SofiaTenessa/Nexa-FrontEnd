@@ -59,7 +59,12 @@ export default function Sidebar({ page, setPage }) {
             <span className={styles.navLabel}>System Map</span>
           </div>
 
-          <div className={styles.sidebarLink}>
+          <div
+            className={`${styles.sidebarLink} ${
+              page === "alerts" ? styles.active : ""
+            }`}
+            onClick={() => setPage("alerts")}
+          >
             <NavIcon name="notifications" />
             <span className={styles.navLabel}>Alerts</span>
           </div>
