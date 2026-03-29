@@ -3,6 +3,7 @@ import AlertDetailHeader from "./AlertDetailHeader";
 import AlertTimeline from "./AlertTimeline";
 import AlertNotifications from "./AlertNotifications";
 import TemperatureChart from "./TemperatureChart";
+import AISummary from "./AISummary";
 
 export default function AlertDetails({ alert }) {
   if (!alert) {
@@ -12,6 +13,9 @@ export default function AlertDetails({ alert }) {
   return (
     <div className={styles.panel}>
       <AlertDetailHeader alert={alert} />
+
+      <div className={styles.sectionLabel}>AI ANALYSIS</div>
+      <AISummary alert={alert} />
 
       <div className={styles.sectionLabel}>TIMELINE</div>
 
