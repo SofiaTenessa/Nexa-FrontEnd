@@ -9,7 +9,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+  baseURL: process.env.OPENAI_BASE_URL || "https://api.openai.com/v1",
+});
 
 // In-memory stores
 const chatHistories = {}; // keyed by sessionId
@@ -29,7 +32,7 @@ app.post("/api/ai/summary", async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: process.env.AI_MODEL || "gpt-4o-mini",
       messages: [
         {
           role: "system",
@@ -173,7 +176,7 @@ ${alertContext.readingValue ? `- Reading: ${alertContext.readingValue}` : ""}`,
 
   try {
     const completion = await openai.chat.completions.create({
-      model: "gpt-4o-mini",
+      model: process.env.AI_MODEL || "gpt-4o-mini",
       messages: chatHistories[sessionId],
       temperature: 0.5,
     });
