@@ -4,6 +4,7 @@ import AlertTimeline from "./AlertTimeline";
 import AlertNotifications from "./AlertNotifications";
 import TemperatureChart from "./TemperatureChart";
 import AISummary from "./AISummary";
+import MiniSystemMap from "./MiniSystemMap";
 
 export default function AlertDetails({ alert }) {
   if (!alert) {
@@ -13,6 +14,8 @@ export default function AlertDetails({ alert }) {
   return (
     <div className={styles.panel}>
       <AlertDetailHeader alert={alert} />
+
+      <MiniSystemMap alert={alert} />
 
       <div className={styles.sectionLabel}>AI ANALYSIS</div>
       <AISummary alert={alert} />

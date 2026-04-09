@@ -1,0 +1,61 @@
+.container {
+  padding: 0 28px 16px;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: #1976d2;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s;
+  width: 100%;
+}
+
+.toggle:hover {
+  background: #f5f8ff;
+}
+
+.mapLabel {
+  font-size: 11px;
+  font-weight: 600;
+  color: #666;
+  margin: 10px 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.mapWrapper {
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+  padding: 8px;
+  overflow-x: auto;
+  background-image: radial-gradient(circle, #ececec 1px, transparent 1px);
+  background-size: 6px 6px;
+  max-width: 100%;
+}
+
+.svg {
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  display: block;
+}
+
+.empty {
+  padding: 16px;
+  font-size: 13px;
+  color: #999;
+  text-align: center;
+  background: #fff;
+  border: 1px solid #dcdcdc;
+  border-radius: 6px;
+}

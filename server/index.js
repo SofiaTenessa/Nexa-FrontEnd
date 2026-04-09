@@ -2,6 +2,13 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import OpenAI from "openai";
+import {
+  insertFeedback,
+  getAllFeedback,
+  insertMetric,
+  getMetricsSummary,
+  getFeedbackSummary,
+} from "./db.js";
 
 dotenv.config();
 
@@ -14,16 +21,8 @@ const openai = new OpenAI({
   baseURL: process.env.OPENAI_BASE_URL || "https://api.openai.com/v1",
 });
 
-// In-memory stores
-const chatHistories = {}; // keyed by sessionId
-const feedbackStore = [];
-const metricsStore = {
-  totalRequests: 0,
-  thumbsUp: 0,
-  thumbsDown: 0,
-  avgResponseTimeMs: 0,
-  responseTimes: [],
-};
+// Chat histories stay in memory (session-scoped, not persistent)
+const chatHistories = {};
 
 // Generate AI summary for an alert
 app.post("/api/ai/summary", async (req, res) => {
@@ -73,13 +72,7 @@ Respond in JSON format:
     const result = JSON.parse(completion.choices[0].message.content);
     const elapsed = Date.now() - start;
 
-    // Track metrics
-    metricsStore.totalRequests++;
-    metricsStore.responseTimes.push(elapsed);
-    metricsStore.avgResponseTimeMs = Math.round(
-      metricsStore.responseTimes.reduce((a, b) => a + b, 0) /
-        metricsStore.responseTimes.length
-    );
+    insertMetric.run(alert.id, "summary", elapsed);
 
     res.json({
       summary: result.summary,
@@ -97,31 +90,30 @@ Respond in JSON format:
 app.post("/api/feedback", (req, res) => {
   const { alertId, rating, summaryText } = req.body;
 
-  const entry = {
-    id: feedbackStore.length + 1,
-    alertId,
-    rating,
-    summaryText,
-    timestamp: new Date().toISOString(),
-  };
-  feedbackStore.push(entry);
+  const result = insertFeedback.run(alertId, rating, summaryText || null);
 
-  if (rating === "up") metricsStore.thumbsUp++;
-  if (rating === "down") metricsStore.thumbsDown++;
-
-  res.json({ success: true, entry });
+  res.json({
+    success: true,
+    entry: { id: result.lastInsertRowid, alertId, rating },
+  });
 });
 
 // Get metrics
 app.get("/api/metrics", (_req, res) => {
+  const metrics = getMetricsSummary.get();
+  const feedback = getFeedbackSummary.get();
+
   res.json({
-    ...metricsStore,
-    feedbackCount: feedbackStore.length,
+    totalRequests: metrics.total_requests,
+    avgResponseTimeMs: metrics.avg_response_time_ms || 0,
+    thumbsUp: feedback.thumbs_up,
+    thumbsDown: feedback.thumbs_down,
+    feedbackCount: feedback.total,
     approvalRate:
-      metricsStore.thumbsUp + metricsStore.thumbsDown > 0
+      feedback.thumbs_up + feedback.thumbs_down > 0
         ? Math.round(
-            (metricsStore.thumbsUp /
-              (metricsStore.thumbsUp + metricsStore.thumbsDown)) *
+            (feedback.thumbs_up /
+              (feedback.thumbs_up + feedback.thumbs_down)) *
               100
           )
         : null,
@@ -130,7 +122,7 @@ app.get("/api/metrics", (_req, res) => {
 
 // Get all feedback entries
 app.get("/api/feedback", (_req, res) => {
-  res.json(feedbackStore);
+  res.json(getAllFeedback.all());
 });
 
 // AI Chat
@@ -185,12 +177,7 @@ ${alertContext.readingValue ? `- Reading: ${alertContext.readingValue}` : ""}`,
     chatHistories[sessionId].push({ role: "assistant", content: reply });
 
     const elapsed = Date.now() - start;
-    metricsStore.totalRequests++;
-    metricsStore.responseTimes.push(elapsed);
-    metricsStore.avgResponseTimeMs = Math.round(
-      metricsStore.responseTimes.reduce((a, b) => a + b, 0) /
-        metricsStore.responseTimes.length
-    );
+    insertMetric.run(null, "chat", elapsed);
 
     res.json({ reply, responseTimeMs: elapsed });
   } catch (err) {
