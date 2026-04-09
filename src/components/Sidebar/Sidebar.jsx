@@ -1,3 +1,4 @@
+import { NavLink } from "react-router-dom";
 import styles from "./Sidebar.module.css";
 
 function NavIcon({ name }) {
@@ -11,7 +12,30 @@ function NavIcon({ name }) {
   );
 }
 
-export default function Sidebar({ page, setPage }) {
+function SidebarLink({ to, icon, label }) {
+  return (
+    <NavLink
+      to={to}
+      className={({ isActive }) =>
+        `${styles.sidebarLink} ${isActive ? styles.active : ""}`
+      }
+    >
+      <NavIcon name={icon} />
+      <span className={styles.navLabel}>{label}</span>
+    </NavLink>
+  );
+}
+
+function SidebarPlaceholder({ icon, label }) {
+  return (
+    <div className={styles.sidebarLink}>
+      <NavIcon name={icon} />
+      <span className={styles.navLabel}>{label}</span>
+    </div>
+  );
+}
+
+export default function Sidebar() {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.sidebarTopbar}>
@@ -39,88 +63,28 @@ export default function Sidebar({ page, setPage }) {
 
       <div className={styles.sidebarExpanded}>
         <div className={styles.sidebarSection}>
-          <div
-            className={`${styles.sidebarLink} ${
-              page === "home" ? styles.active : ""
-            }`}
-            onClick={() => setPage("home")}
-          >
-            <NavIcon name="home" />
-            <span className={styles.navLabel}>Home</span>
-          </div>
-
-          <div
-            className={`${styles.sidebarLink} ${
-              page === "systemMap" ? styles.active : ""
-            }`}
-            onClick={() => setPage("systemMap")}
-          >
-            <NavIcon name="hub" />
-            <span className={styles.navLabel}>System Map</span>
-          </div>
-
-          <div
-            className={`${styles.sidebarLink} ${
-              page === "alerts" ? styles.active : ""
-            }`}
-            onClick={() => setPage("alerts")}
-          >
-            <NavIcon name="notifications" />
-            <span className={styles.navLabel}>Alerts</span>
-          </div>
-
-          <div className={styles.sidebarLink}>
-            <NavIcon name="analytics" />
-            <span className={styles.navLabel}>Analytics</span>
-          </div>
+          <SidebarLink to="/" icon="home" label="Home" />
+          <SidebarLink to="/system-map" icon="hub" label="System Map" />
+          <SidebarLink to="/alerts" icon="notifications" label="Alerts" />
+          <SidebarPlaceholder icon="analytics" label="Analytics" />
         </div>
 
         <div className={styles.sidebarDivider} />
 
         <div className={styles.sidebarSection}>
-          <div className={styles.sidebarLink}>
-            <NavIcon name="location_on" />
-            <span className={styles.navLabel}>Locations</span>
-          </div>
-
-          <div className={styles.sidebarLink}>
-            <NavIcon name="device_hub" />
-            <span className={styles.navLabel}>Equipment</span>
-          </div>
-
-          <div className={styles.sidebarLink}>
-            <NavIcon name="sensors" />
-            <span className={styles.navLabel}>Sensors</span>
-          </div>
-
-          <div className={styles.sidebarLink}>
-            <NavIcon name="settings_input_component" />
-            <span className={styles.navLabel}>Automations</span>
-          </div>
-
-          <div className={styles.sidebarLink}>
-            <NavIcon name="router" />
-            <span className={styles.navLabel}>Gateways</span>
-          </div>
+          <SidebarPlaceholder icon="location_on" label="Locations" />
+          <SidebarPlaceholder icon="device_hub" label="Equipment" />
+          <SidebarPlaceholder icon="sensors" label="Sensors" />
+          <SidebarPlaceholder icon="settings_input_component" label="Automations" />
+          <SidebarPlaceholder icon="router" label="Gateways" />
         </div>
 
         <div className={styles.sidebarDivider} />
 
         <div className={styles.sidebarSection}>
-          <div className={styles.sidebarLink}>
-            <NavIcon name="settings" />
-            <span className={styles.navLabel}>Settings</span>
-          </div>
-
-          <div className={styles.sidebarLink}>
-            <NavIcon name="help" />
-            <span className={styles.navLabel}>Help</span>
-          </div>
-
-          <div className={styles.sidebarLink}>
-            <NavIcon name="logout" />
-            <span className={styles.navLabel}>Sign Out</span>
-          </div>
+          <SidebarPlaceholder icon="settings" label="Settings" />
+          <SidebarPlaceholder icon="help" label="Help" />
+          <SidebarPlaceholder icon="logout" label="Sign Out" />
         </div>
       </div>
     </aside>

@@ -1,13 +1,16 @@
 import { useMemo, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import styles from "./Alerts.module.css";
-import { alerts } from "./alertsData";
+import { useAlerts } from "../../hooks/useAlerts";
 import AlertsHeader from "./components/AlertsHeader";
 import AlertsFilters from "./components/AlertsFilters";
 import AlertsList from "./components/AlertsList";
 import AlertDetails from "./components/AlertDetails";
 
 export default function Alerts() {
-  const [selectedAlertId, setSelectedAlertId] = useState(alerts[0]?.id ?? null);
+  const { alerts, loading, error } = useAlerts();
+  const [searchParams] = useSearchParams();
+  const [selectedAlertId, setSelectedAlertId] = useState(searchParams.get("id"));
   const [activeTab, setActiveTab] = useState("current");
   const [search, setSearch] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
@@ -50,6 +53,7 @@ export default function Alerts() {
       );
     });
   }, [
+    alerts,
     activeTab,
     search,
     selectedLocation,
@@ -59,6 +63,7 @@ export default function Alerts() {
     severityFilters,
   ]);
 
+  // Derive the selected alert — fall back to first in list if none chosen yet
   const selectedAlert =
     filteredAlerts.find((alert) => alert.id === selectedAlertId) ??
     filteredAlerts[0] ??
@@ -91,6 +96,9 @@ export default function Alerts() {
     setSelectedSensorType("");
     setSeverityFilters([]);
   }
+
+  if (loading) return <div className={styles.page} style={{ padding: "2rem" }}>Loading alerts...</div>;
+  if (error) return <div className={styles.page} style={{ padding: "2rem" }}>Failed to load alerts: {error}</div>;
 
   return (
     <div className={styles.page}>

@@ -135,6 +135,34 @@
   padding: 26px 26px 18px;
 }
 
+.rangeSelector {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 16px;
+}
+
+.rangeBtn {
+  padding: 4px 12px;
+  border: 1px solid #d0d0d0;
+  border-radius: 4px;
+  background: #fff;
+  color: #555;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.rangeBtn:hover {
+  border-color: #2f6fc0;
+  color: #2f6fc0;
+}
+
+.rangeBtnActive {
+  background: #2f6fc0;
+  border-color: #2f6fc0;
+  color: #fff;
+}
+
 .chartInner {
   display: grid;
   grid-template-columns: 1fr auto;

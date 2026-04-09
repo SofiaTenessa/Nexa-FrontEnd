@@ -1,3 +1,5 @@
+import { useNavigate } from 'react-router-dom';
+import { useAlerts } from '../../hooks/useAlerts';
 import styles from './Home.module.css';
 
 function StatusDot({ color }) {
@@ -72,7 +74,7 @@ function HealthCard() {
   );
 }
 
-function OpenAlertsCard() {
+function OpenAlertsCard({ highCount }) {
   return (
     <div className={styles['status-card']}>
       <div className={styles['status-head']}>
@@ -84,13 +86,13 @@ function OpenAlertsCard() {
       </div>
       <div className={styles['single-row']}>
         <StatusDot color="red" />
-        <a href="/">5 High Alerts</a>
+        <a href="/">{highCount} High Alerts</a>
       </div>
     </div>
   );
 }
 
-function AlertRow({ title, time }) {
+function AlertRow({ id, title, time, onSelect }) {
   const dotStyle = {
     width: '12px',
     height: '12px',
@@ -101,11 +103,11 @@ function AlertRow({ title, time }) {
   };
 
   return (
-    <div className={styles['alert-row']}>
+    <div className={styles['alert-row']} style={{ cursor: 'pointer' }} onClick={() => onSelect(id)}>
       <div className={styles['alert-main']}>
         <span style={dotStyle} />
         <span className={styles.severity}>High</span>
-        <a href="/">{title}</a>
+        <span>{title}</span>
       </div>
       <div className={styles['time-block']}>
         <div className={styles['time-label']}>TIME IN ALERT:</div>
@@ -115,7 +117,14 @@ function AlertRow({ title, time }) {
   );
 }
 
-function TopAlertsCard() {
+function TopAlertsCard({ alerts }) {
+  const navigate = useNavigate();
+  const current = alerts.filter((a) => a.status === "current").slice(0, 5);
+
+  function handleAlertSelect(id) {
+    navigate(`/alerts?id=${id}`);
+  }
+
   return (
     <div className={styles.panel}>
       <div className={styles['panel-header']}>
@@ -123,13 +132,11 @@ function TopAlertsCard() {
           <div className={styles['panel-subtitle']}>Alerts</div>
           <h2>Top Open Alerts</h2>
         </div>
-        <button className={styles['outline-btn']}>VIEW ALERTS</button>
+        <button className={styles['outline-btn']} onClick={() => navigate('/alerts')}>VIEW ALERTS</button>
       </div>
-      <AlertRow title="Temp Out (Floor 1 W) has lost communication" time="10 days" />
-      <AlertRow title="Smart Base Station 1 has lost communication" time="1 month" />
-      <AlertRow title="Sensor 30000005 has Leak Detected" time="1 month" />
-      <AlertRow title="Sensor 30000004 has Leak Detected" time="1 month" />
-      <AlertRow title="Sensor 30000003 has Leak Detected" time="1 month" />
+      {current.map((alert) => (
+        <AlertRow key={alert.id} id={alert.id} title={alert.title} time={alert.timeInAlertShort} onSelect={handleAlertSelect} />
+      ))}
     </div>
   );
 }
@@ -182,6 +189,11 @@ function LeakInsights() {
 }
 
 export default function Home() {
+  const { alerts } = useAlerts();
+  const highCount = alerts.filter(
+    (a) => a.status === "current" && a.severity === "High"
+  ).length;
+
   return (
     <main className={styles.main}>
       <div className={styles.wordmark}>nexa</div>
@@ -191,10 +203,10 @@ export default function Home() {
       </header>
       <div className={styles['top-grid']}>
         <div className={styles['left-column']}>
-          <OpenAlertsCard />
+          <OpenAlertsCard highCount={highCount} />
           <HealthCard />
         </div>
-        <TopAlertsCard />
+        <TopAlertsCard alerts={alerts} />
       </div>
       <WaterUsageCard />
       <LeakInsights />
