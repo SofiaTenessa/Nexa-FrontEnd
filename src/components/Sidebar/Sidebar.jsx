@@ -69,6 +69,16 @@ export default function Sidebar({ page, setPage }) {
             <span className={styles.navLabel}>Alerts</span>
           </div>
 
+          <div
+            className={`${styles.sidebarLink} ${
+              page === "chat" ? styles.active : ""
+            }`}
+            onClick={() => setPage("chat")}
+          >
+            <NavIcon name="smart_toy" />
+            <span className={styles.navLabel}>AI Chat</span>
+          </div>
+
           <div className={styles.sidebarLink}>
             <NavIcon name="analytics" />
             <span className={styles.navLabel}>Analytics</span>
