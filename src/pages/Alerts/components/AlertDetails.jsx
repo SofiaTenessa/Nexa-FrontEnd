@@ -1,5 +1,6 @@
 import styles from "./AlertDetails.module.css";
 import AlertDetailHeader from "./AlertDetailHeader";
+import AlertCause from "./AlertCause";
 import AlertTimeline from "./AlertTimeline";
 import AlertNotifications from "./AlertNotifications";
 import TemperatureChart from "./TemperatureChart";
@@ -12,6 +13,8 @@ export default function AlertDetails({ alert }) {
   return (
     <div className={styles.panel}>
       <AlertDetailHeader alert={alert} />
+
+      <AlertCause cause={alert.likelyCause} />
 
       <div className={styles.sectionLabel}>TIMELINE</div>
 
