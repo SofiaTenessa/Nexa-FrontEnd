@@ -66,6 +66,7 @@ export default function Sidebar() {
           <SidebarLink to="/" icon="home" label="Home" />
           <SidebarLink to="/system-map" icon="hub" label="System Map" />
           <SidebarLink to="/alerts" icon="notifications" label="Alerts" />
+          <SidebarLink to="/chat" icon="smart_toy" label="AI Chat" />
           <SidebarPlaceholder icon="analytics" label="Analytics" />
         </div>
 

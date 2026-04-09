@@ -5,6 +5,7 @@ import Sidebar from "./components/Sidebar/Sidebar";
 import Home from "./pages/Home/Home";
 import SystemMap from "./pages/SystemMap/SystemMap";
 import Alerts from "./pages/Alerts/Alerts";
+import Chat from "./pages/Chat/Chat";
 import styles from "./components/Navbar/Navbar.module.css";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/system-map" element={<SystemMap />} />
         <Route path="/alerts" element={<Alerts />} />
+        <Route path="/chat" element={<Chat />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </div>

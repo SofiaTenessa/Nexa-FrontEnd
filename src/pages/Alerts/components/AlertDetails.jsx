@@ -4,6 +4,8 @@ import AlertCause from "./AlertCause";
 import AlertTimeline from "./AlertTimeline";
 import AlertNotifications from "./AlertNotifications";
 import TemperatureChart from "./TemperatureChart";
+import AISummary from "./AISummary";
+import MiniSystemMap from "./MiniSystemMap";
 
 export default function AlertDetails({ alert }) {
   if (!alert) {
@@ -15,6 +17,11 @@ export default function AlertDetails({ alert }) {
       <AlertDetailHeader alert={alert} />
 
       <AlertCause cause={alert.likelyCause} />
+
+      <MiniSystemMap alert={alert} />
+
+      <div className={styles.sectionLabel}>AI ANALYSIS</div>
+      <AISummary alert={alert} />
 
       <div className={styles.sectionLabel}>TIMELINE</div>
 
