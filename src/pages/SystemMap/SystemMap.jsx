@@ -1,4 +1,5 @@
 import styles from "./SystemMap.module.css";
+import VisualSystemMap from "./VisualSystemMap";
 
 function TypeCell({ icon, label }) {
   return (
@@ -30,9 +31,7 @@ export default function SystemMap() {
         <div className={styles.graphCanvas}>
           <div className={styles.mapArea}>
             <div className={styles.mapFrame}>
-              <div className={styles.mapPlaceholderText}>
-                System map diagram goes here
-              </div>
+              <VisualSystemMap />
             </div>
           </div>
 
