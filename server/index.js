@@ -9,6 +9,7 @@ import {
   getMetricsSummary,
   getFeedbackSummary,
 } from "./db.js";
+import { alerts } from "../src/pages/Alerts/alertsData.js";
 
 dotenv.config();
 
@@ -24,6 +25,74 @@ const openai = new OpenAI({
 // Chat histories stay in memory (session-scoped, not persistent)
 const chatHistories = {};
 
+// Sensor readings — generate realistic historical data per sensorId
+function generateSensorReadings(sensorId) {
+  const now = new Date();
+  const readings = [];
+
+  // Config per known sensor
+  const configs = {
+    "monnit-1307348": {
+      // DHW temp sensor — dropped below 110°F threshold ~14 days ago
+      alertStartDaysAgo: 14,
+      baseTemp: 118,
+      dropTo: 101.8,
+      dropDaysAgo: 14,
+    },
+  };
+
+  const cfg = configs[sensorId] || {
+    alertStartDaysAgo: 7,
+    baseTemp: 115,
+    dropTo: 104,
+    dropDaysAgo: 7,
+  };
+
+  // Generate one reading every 15 minutes for the past 30 days
+  const intervalMs = 15 * 60 * 1000;
+  const totalReadings = (30 * 24 * 60 * 60 * 1000) / intervalMs;
+  const dropMs = cfg.dropDaysAgo * 24 * 60 * 60 * 1000;
+
+  for (let i = totalReadings; i >= 0; i--) {
+    const ts = new Date(now.getTime() - i * intervalMs);
+    const ageMs = now.getTime() - ts.getTime();
+
+    let value;
+    if (ageMs > dropMs) {
+      // Before the drop — hovering around baseTemp with small noise
+      value = cfg.baseTemp + (Math.random() - 0.5) * 3;
+    } else {
+      // After the drop — interpolate down then stabilize at dropTo
+      const progress = Math.min(1, (dropMs - ageMs) / (2 * 24 * 60 * 60 * 1000));
+      const trend = cfg.baseTemp - (cfg.baseTemp - cfg.dropTo) * progress;
+      value = trend + (Math.random() - 0.5) * 1.5;
+    }
+
+    // Format: "MM/DD/YY HH:MM:SS AM/PM"
+    const month = String(ts.getMonth() + 1).padStart(2, "0");
+    const day = String(ts.getDate()).padStart(2, "0");
+    const year = String(ts.getFullYear()).slice(2);
+    let hours = ts.getHours();
+    const meridiem = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12 || 12;
+    const hStr = String(hours).padStart(2, "0");
+    const mStr = String(ts.getMinutes()).padStart(2, "0");
+    const sStr = String(ts.getSeconds()).padStart(2, "0");
+    const timestamp = `${month}/${day}/${year} ${hStr}:${mStr}:${sStr} ${meridiem}`;
+
+    readings.push({ timestamp, value: parseFloat(value.toFixed(1)) });
+  }
+
+  return readings;
+}
+
+// Sensor readings endpoint
+app.get("/api/sensors/:sensorId/readings", (req, res) => {
+  const { sensorId } = req.params;
+  const readings = generateSensorReadings(sensorId);
+  res.json({ sensorId, readings });
+});
+
 // Generate AI summary for an alert
 app.post("/api/ai/summary", async (req, res) => {
   const { alert } = req.body;
@@ -31,7 +100,7 @@ app.post("/api/ai/summary", async (req, res) => {
 
   try {
     const completion = await openai.chat.completions.create({
-      model: process.env.AI_MODEL || "gpt-4o-mini",
+      model: process.env.AI_MODEL || "GPT 4.1 Mini",
       messages: [
         {
           role: "system",
@@ -125,12 +194,25 @@ app.get("/api/feedback", (_req, res) => {
   res.json(getAllFeedback.all());
 });
 
+// Get current alerts
+app.get("/api/alerts", (_req, res) => {
+  res.json(alerts);
+});
+
 // AI Chat
 app.post("/api/ai/chat", async (req, res) => {
   const { message, sessionId = "default", alertContext } = req.body;
   const start = Date.now();
 
   if (!chatHistories[sessionId]) {
+    const currentAlerts = alerts.filter((a) => a.status === "current");
+    const alertsSummary = currentAlerts
+      .map(
+        (a) =>
+          `- [${a.severity}] ${a.title} | Location: ${a.location} | Equipment: ${a.equipment} | Time in alert: ${a.timeInAlertFull} | Started: ${a.startTime}${a.readingValue ? ` | Reading: ${a.readingValue}` : ""}${a.readingDelta ? ` (${a.readingDelta})` : ""}`
+      )
+      .join("\n");
+
     chatHistories[sessionId] = [
       {
         role: "system",
@@ -143,7 +225,10 @@ You have knowledge about:
 - Building equipment maintenance
 - Alert triage and prioritization
 
-Keep responses concise and actionable. If you don't have specific data, provide general best practices and suggest where to look.`,
+CURRENT FACILITY ALERTS (live data as of session start):
+${alertsSummary}
+
+Use the above alert data to answer questions about current facility status, which alerts are most urgent, recommended actions, etc. Keep responses concise and actionable.`,
       },
     ];
   }
@@ -168,7 +253,7 @@ ${alertContext.readingValue ? `- Reading: ${alertContext.readingValue}` : ""}`,
 
   try {
     const completion = await openai.chat.completions.create({
-      model: process.env.AI_MODEL || "gpt-4o-mini",
+      model: process.env.AI_MODEL || "GPT 4.1 Mini",
       messages: chatHistories[sessionId],
       temperature: 0.5,
     });
